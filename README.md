@@ -17,6 +17,18 @@ The data layer is **SQLite via Drizzle ORM**. No external services, no auth, no 
 
 ---
 
+## Getting the code
+
+Please **fork this repository to your own GitHub account** rather than cloning it directly — that way you can push your work to your fork as you go, and submit by sharing the link to your fork.
+
+1. Click the **Fork** button at the top right of [github.com/Sendient/sendient-technical-task](https://github.com/Sendient/sendient-technical-task).
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/sendient-technical-task.git
+   cd sendient-technical-task
+   ```
+3. Work on whichever branch makes sense to you (main is fine for a take-home).
+
 ## Setup
 
 ```bash
@@ -103,10 +115,9 @@ You'll see these in the starter repo — please follow them in your additions:
 
 ## Submitting
 
-Either is fine:
+Push your work to your fork on GitHub and reply with the link. Useful commit history is a positive signal — small, focused commits with conventional prefixes (`fix:`, `feat:`, `test:`, `refactor:`) read better than one giant "done" commit.
 
-- **Push to a fresh public repo** and send the link. Useful commit history is a positive signal.
-- **Zip the project** (excluding `node_modules`, `.next`, and `data.db`) and email it.
+If for any reason you can't use GitHub, zip the project (excluding `node_modules`, `.next`, and `data.db`) and email it instead.
 
 Either way, please include:
 
