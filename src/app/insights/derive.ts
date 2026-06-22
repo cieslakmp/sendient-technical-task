@@ -7,12 +7,15 @@ type StudentEntry = {
   records: Array<{ score: number; recordedAt: Date }>;
 };
 
+type BandStudent = { id: number; name: string };
+
 export type InsightsData = {
   totalStudents: number;
   totalRecords: number;
   studentsWithRecords: number;
   cohortAvg: number | null;
   bandCounts: { strong: number; good: number; mid: number; low: number; veryLow: number; none: number };
+  studentsByBand: { strong: BandStudent[]; good: BandStudent[]; mid: BandStudent[]; low: BandStudent[]; veryLow: BandStudent[]; none: BandStudent[] };
   subjectStats: Array<{ subject: string; avg: number; studentCount: number }>;
   topicStats: Array<{ name: string; subject: string; count: number; avg: number | null }>;
   attentionStudents: Array<{
@@ -66,13 +69,21 @@ export function deriveInsights(rows: CohortInsightsRow[]): InsightsData {
   // Band distribution — 5 finer bands so a cohort clustered in one range still shows structure.
   // Not using classifyScore() because it throws on null and only has 3 bands.
   const bandCounts = { strong: 0, good: 0, mid: 0, low: 0, veryLow: 0, none: 0 };
-  for (const avg of studentAvgMap.values()) {
-    if (avg === null)   bandCounts.none++;
-    else if (avg >= 80) bandCounts.strong++;
-    else if (avg >= 65) bandCounts.good++;
-    else if (avg >= 50) bandCounts.mid++;
-    else if (avg >= 35) bandCounts.low++;
-    else                bandCounts.veryLow++;
+  const studentsByBand: InsightsData["studentsByBand"] = {
+    strong: [], good: [], mid: [], low: [], veryLow: [], none: [],
+  };
+  for (const [id, { name }] of studentMap) {
+    const avg = studentAvgMap.get(id)!;
+    const entry: BandStudent = { id, name };
+    if (avg === null)   { bandCounts.none++;    studentsByBand.none.push(entry); }
+    else if (avg >= 80) { bandCounts.strong++;  studentsByBand.strong.push(entry); }
+    else if (avg >= 65) { bandCounts.good++;    studentsByBand.good.push(entry); }
+    else if (avg >= 50) { bandCounts.mid++;     studentsByBand.mid.push(entry); }
+    else if (avg >= 35) { bandCounts.low++;     studentsByBand.low.push(entry); }
+    else                { bandCounts.veryLow++; studentsByBand.veryLow.push(entry); }
+  }
+  for (const list of Object.values(studentsByBand)) {
+    list.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   // Subject summary
@@ -148,6 +159,7 @@ export function deriveInsights(rows: CohortInsightsRow[]): InsightsData {
     studentsWithRecords,
     cohortAvg,
     bandCounts,
+    studentsByBand,
     subjectStats,
     topicStats,
     attentionStudents,
