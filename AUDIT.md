@@ -6,7 +6,7 @@ _Fill this in as you go. See the README for what we're looking for._
 
 1. Division by zero in src\lib\actions\server.actions.ts and in the widget src\components\AverageScoreWidget.tsx handle the null by showing the dash.
 
-
+2. Fix the fixme bug in src\lib\actions\server.actions.ts input: any removes TypeScript safety. Any input is accepted. Added a Zod schema. Replaced input: any.
 
 ## What I fixed and why
 
