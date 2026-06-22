@@ -87,12 +87,13 @@ export async function getProgressForStudent(studentId: number) {
     .all();
 }
 
-export async function getAverageForStudent(studentId: number): Promise<number> {
+export async function getAverageForStudent(studentId: number): Promise<number | null> {
   const rows = db
     .select({ score: progressRecords.score })
     .from(progressRecords)
     .where(eq(progressRecords.studentId, studentId))
     .all();
+    if (rows.length === 0) return null;
   const total = rows.reduce((sum, r) => sum + r.score, 0);
   return total / rows.length;
 }
