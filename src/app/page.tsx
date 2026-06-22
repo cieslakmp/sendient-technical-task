@@ -12,7 +12,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Link href="/students">
           <Card className="hover:border-foreground/30">
             <CardTitle>Students</CardTitle>
@@ -32,6 +32,14 @@ export default function HomePage() {
             <CardTitle>Record progress</CardTitle>
             <CardSubtitle>
               Log a new score for a student on a topic.
+            </CardSubtitle>
+          </Card>
+        </Link>
+        <Link href="/insights">
+          <Card className="hover:border-foreground/30">
+            <CardTitle>Insights</CardTitle>
+            <CardSubtitle>
+              Cohort averages, score bands, and students needing attention.
             </CardSubtitle>
           </Card>
         </Link>
