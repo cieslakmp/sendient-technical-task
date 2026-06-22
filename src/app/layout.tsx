@@ -33,6 +33,12 @@ export default function RootLayout({
               Topics
             </Link>
             <Link
+              href="/insights"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Insights
+            </Link>
+            <Link
               href="/progress/new"
               className="text-muted-foreground hover:text-foreground"
             >
