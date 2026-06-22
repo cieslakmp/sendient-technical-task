@@ -23,6 +23,8 @@ export function ProgressForm({ students, topics }: ProgressFormProps) {
 
   function handleSubmit() {
     if (studentId == null || topicId == null) return;
+    const numericScore = Number(score);
+    if (!Number.isFinite(numericScore) || numericScore < 0 || numericScore > 100) return;
     startTransition(async () => {
       await recordProgress({
         studentId,
@@ -82,6 +84,9 @@ export function ProgressForm({ students, topics }: ProgressFormProps) {
           <p className="mb-2 text-sm font-medium">Score</p>
           <input
             type="number"
+            min={0}
+            max={100}
+            step={1}
             value={score}
             onChange={(e) => setScore(e.target.value)}
             placeholder="0 – 100"
