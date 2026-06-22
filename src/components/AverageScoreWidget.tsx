@@ -11,7 +11,7 @@ export async function AverageScoreWidget({
     <Card>
       <CardTitle>Average score</CardTitle>
       <CardSubtitle>Across all recorded topics</CardSubtitle>
-      <p className="mt-2 text-3xl font-semibold">{avg.toFixed(1)}</p>
+      <p className="mt-2 text-3xl font-semibold">{avg !==null ? avg.toFixed(1) : "-"}</p>
     </Card>
   );
 }
