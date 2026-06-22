@@ -95,11 +95,13 @@ Tests only cover valid boundary values (0, 49, 50, 69, 70, 99). Missing: negativ
 
 7. Foreign key cascade contradicts soft-delete model. Changed the onDelete mode for students.id and topics.id to "restrict".
 
-8. Changes have broken the DB migration, reset and seeding. Added a SQLite table-recreation pattern.
+7. (2) Changes have broken the DB migration, reset and seeding. Added a SQLite table-recreation pattern.
+
+10. Score input has no min or max and Number(score) can produce NaN.
 
 ## What I deferred and why
 
-_(Anything you spotted but chose not to fix — and what would push it up the priority list.)_
+8.
 
 ## What I'd argue is the biggest problem with the codebase
 
