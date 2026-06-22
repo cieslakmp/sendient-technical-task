@@ -48,54 +48,70 @@ describe("deriveInsights — band distribution", () => {
   it("puts students with no records into the none band", () => {
     const rows = [studentRow(1, "Alice", 9), studentRow(2, "Bob", 10)];
     const { bandCounts } = deriveInsights(rows);
-    expect(bandCounts).toEqual({ high: 0, mid: 0, low: 0, none: 2 });
+    expect(bandCounts).toEqual({ strong: 0, good: 0, mid: 0, low: 0, veryLow: 0, none: 2 });
   });
 
-  it("classifies a student with avg >= 70 as high", () => {
+  it("classifies avg >= 80 as strong", () => {
+    const rows = [recordRow(1, "Alice", 9, 1, 85, 1, "Algebra", "Maths")];
+    const { bandCounts } = deriveInsights(rows);
+    expect(bandCounts.strong).toBe(1);
+    expect(bandCounts.good).toBe(0);
+  });
+
+  it("classifies avg 65-79 as good", () => {
     const rows = [
-      recordRow(1, "Alice", 9, 1, 80, 1, "Algebra", "Maths"),
-      recordRow(1, "Alice", 9, 2, 70, 1, "Algebra", "Maths"),
+      recordRow(1, "Alice", 9, 1, 65, 1, "Algebra", "Maths"),
+      recordRow(1, "Alice", 9, 2, 74, 1, "Algebra", "Maths"),
     ];
     const { bandCounts } = deriveInsights(rows);
-    expect(bandCounts.high).toBe(1);
-    expect(bandCounts.mid).toBe(0);
-    expect(bandCounts.low).toBe(0);
+    expect(bandCounts.good).toBe(1);
+    expect(bandCounts.strong).toBe(0);
   });
 
-  it("classifies a student with avg 50-69 as mid", () => {
+  it("classifies avg 50-64 as mid", () => {
     const rows = [
       recordRow(1, "Alice", 9, 1, 50, 1, "Algebra", "Maths"),
-      recordRow(1, "Alice", 9, 2, 69, 1, "Algebra", "Maths"),
+      recordRow(1, "Alice", 9, 2, 64, 1, "Algebra", "Maths"),
     ];
     const { bandCounts } = deriveInsights(rows);
     expect(bandCounts.mid).toBe(1);
   });
 
-  it("classifies a student with avg < 50 as low", () => {
+  it("classifies avg 35-49 as low", () => {
     const rows = [
-      recordRow(1, "Alice", 9, 1, 30, 1, "Algebra", "Maths"),
-      recordRow(1, "Alice", 9, 2, 40, 1, "Algebra", "Maths"),
+      recordRow(1, "Alice", 9, 1, 35, 1, "Algebra", "Maths"),
+      recordRow(1, "Alice", 9, 2, 45, 1, "Algebra", "Maths"),
     ];
     const { bandCounts } = deriveInsights(rows);
     expect(bandCounts.low).toBe(1);
+    expect(bandCounts.veryLow).toBe(0);
   });
 
-  it("does NOT flag avg exactly 50 as low", () => {
+  it("classifies avg < 35 as veryLow", () => {
+    const rows = [recordRow(1, "Alice", 9, 1, 20, 1, "Algebra", "Maths")];
+    const { bandCounts } = deriveInsights(rows);
+    expect(bandCounts.veryLow).toBe(1);
+    expect(bandCounts.low).toBe(0);
+  });
+
+  it("does NOT put avg exactly 50 into low", () => {
     const rows = [recordRow(1, "Alice", 9, 1, 50, 1, "Algebra", "Maths")];
     const { bandCounts } = deriveInsights(rows);
     expect(bandCounts.low).toBe(0);
     expect(bandCounts.mid).toBe(1);
   });
 
-  it("buckets a mixed cohort correctly", () => {
+  it("buckets a mixed cohort correctly across all bands", () => {
     const rows = [
-      recordRow(1, "Alice", 9, 1, 80, 1, "Algebra", "Maths"),     // high
-      recordRow(2, "Bob",   9, 2, 55, 1, "Algebra", "Maths"),     // mid
-      recordRow(3, "Carol", 9, 3, 40, 1, "Algebra", "Maths"),     // low
-      studentRow(4, "Dave", 9),                                    // none
+      recordRow(1, "Alice", 9, 1, 90, 1, "Algebra", "Maths"),    // strong
+      recordRow(2, "Bob",   9, 2, 70, 1, "Algebra", "Maths"),    // good
+      recordRow(3, "Carol", 9, 3, 55, 1, "Algebra", "Maths"),    // mid
+      recordRow(4, "Dan",   9, 4, 40, 1, "Algebra", "Maths"),    // low
+      recordRow(5, "Eve",   9, 5, 20, 1, "Algebra", "Maths"),    // veryLow
+      studentRow(6, "Frank", 9),                                  // none
     ];
     const { bandCounts } = deriveInsights(rows);
-    expect(bandCounts).toEqual({ high: 1, mid: 1, low: 1, none: 1 });
+    expect(bandCounts).toEqual({ strong: 1, good: 1, mid: 1, low: 1, veryLow: 1, none: 1 });
   });
 });
 
