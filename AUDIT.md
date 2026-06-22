@@ -97,11 +97,22 @@ Tests only cover valid boundary values (0, 49, 50, 69, 70, 99). Missing: negativ
 
 7. (2) Changes have broken the DB migration, reset and seeding. Added a SQLite table-recreation pattern.
 
-10. Score input has no min or max and Number(score) can produce NaN.
+10. Score input has no min or max and Number(score) can produce NaN. Changed the classify Score function and updated the tests at the same time.
+
+14. Added missing edge-case testing and regression coverage.
 
 ## What I deferred and why
 
 8.
+
+9. — ScoreBadge hardcoded Tailwind colors
+Only matters if you plan to ship dark mode. If that's not on the roadmap, this is purely cosmetic and the app works perfectly with hardcoded colours.
+
+11. — Topic chips are keyboard-inaccessible
+Real accessibility concern, but fixing it properly means replacing the <div onClick> chips with radio buttons or adding role, tabIndex, and onKeyDown handlers — a meaningful refactor for a form that works fine with a mouse. Worth doing if this is a real product; fine to skip for a take-home.
+
+12. — Hardcoded text-blue-600 in two link elements
+Purely cosmetic. Two one-line changes to swap to text-primary. Doesn't affect correctness or behaviour at all — it's the kind of thing you'd fix in a design pass, not a bug fix session.
 
 ## What I'd argue is the biggest problem with the codebase
 
