@@ -35,10 +35,10 @@ export const progressRecords = sqliteTable(
     studentId: integer("student_id")
       .notNull()
       // NOTE: cascade vs restrict is one of the things to think about.
-      .references(() => students.id, { onDelete: "cascade" }),
+      .references(() => students.id, { onDelete: "restrict" }),
     topicId: integer("topic_id")
       .notNull()
-      .references(() => topics.id, { onDelete: "cascade" }),
+      .references(() => topics.id, { onDelete: "restrict" }),
     score: real("score").notNull(),
     notes: text("notes"),
     recordedAt: integer("recorded_at", { mode: "timestamp" })

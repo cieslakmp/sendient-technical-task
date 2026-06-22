@@ -12,7 +12,11 @@ _Fill this in as you go. See the README for what we're looking for._
 
 4. deleteStudent does a hard delete, which is contradictory to soft-delete schema. The deleted students data should be retained and filtered out. 
 
-5. students in the db schema has two identical time stamps on it. Both columns default to unixepoch() and nothing in the codebase sets them to different values. Remove joinedAt from the schema and generated new migration.
+5. students in the db schema has two identical time stamps on it. Both columns default to unixepoch() and nothing in the codebase sets them to different values. Remove joinedAt from the schema and generated new migration. Capturing just the creation time.
+
+6. Found issue with unique index including soft-deleted rows but decided that since it is acknowledged in the schema.ts then it will be left. Fix could be applied since 3 and 4 have been implemented. But this would require a discussion with whoever wrote this code. 
+
+7. Foreign key cascade contradicts soft-delete model. Changed the onDelete mode for students.id and topics.id to "restrict".
 
 ## What I fixed and why
 
