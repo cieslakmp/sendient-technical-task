@@ -42,8 +42,10 @@ export async function createStudent(input: { name: string; yearGroup: number }) 
 }
 
 export async function deleteStudent(id: number) {
-  db.delete(students)
-  .where(eq(students.id, id)).run();
+  db.update(students)
+  .set({ deletedAt: new Date() })
+  .where(eq(students.id, id))
+  .run();
   revalidatePath("/students");
 }
 
