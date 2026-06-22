@@ -4,7 +4,9 @@ _Fill this in as you go. See the README for what we're looking for._
 
 ## What I found
 
-_(List the issues you noticed in the starter codebase. Bullet points are fine.)_
+1. Division by zero in src\lib\actions\server.actions.ts and in the widget src\components\AverageScoreWidget.tsx handle the null by showing the dash.
+
+
 
 ## What I fixed and why
 
