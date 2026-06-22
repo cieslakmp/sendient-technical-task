@@ -18,6 +18,9 @@ _Fill this in as you go. See the README for what we're looking for._
 
 7. Foreign key cascade contradicts soft-delete model. Changed the onDelete mode for students.id and topics.id to "restrict".
 
+8. Changes have broken the DB migration, reset and seeding. Added a SQLite table-recreation pattern.
+
+
 ## What I fixed and why
 
 _(For each fix: where it was, what was wrong, and why this one was worth fixing first.)_
