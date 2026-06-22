@@ -16,4 +16,11 @@ describe("classifyScore", () => {
     expect(classifyScore(0)).toBe("low");
     expect(classifyScore(49)).toBe("low");
   });
+
+  it("throws for scores outside 0–100", () => {
+  expect(() => classifyScore(-1)).toThrow(RangeError);
+  expect(() => classifyScore(101)).toThrow(RangeError);
+  expect(() => classifyScore(NaN)).toThrow(RangeError);
+  expect(() => classifyScore(Infinity)).toThrow(RangeError);
+});
 });
