@@ -12,7 +12,7 @@ export type InsightsData = {
   totalRecords: number;
   studentsWithRecords: number;
   cohortAvg: number | null;
-  bandCounts: { high: number; mid: number; low: number; none: number };
+  bandCounts: { strong: number; good: number; mid: number; low: number; veryLow: number; none: number };
   subjectStats: Array<{ subject: string; avg: number; studentCount: number }>;
   topicStats: Array<{ name: string; subject: string; count: number; avg: number | null }>;
   attentionStudents: Array<{
@@ -63,13 +63,16 @@ export function deriveInsights(rows: CohortInsightsRow[]): InsightsData {
   const cohortAvg =
     allAvgs.length > 0 ? allAvgs.reduce((a, b) => a + b, 0) / allAvgs.length : null;
 
-  // Band distribution — not using classifyScore() because it throws on null
-  const bandCounts = { high: 0, mid: 0, low: 0, none: 0 };
+  // Band distribution — 5 finer bands so a cohort clustered in one range still shows structure.
+  // Not using classifyScore() because it throws on null and only has 3 bands.
+  const bandCounts = { strong: 0, good: 0, mid: 0, low: 0, veryLow: 0, none: 0 };
   for (const avg of studentAvgMap.values()) {
-    if (avg === null) bandCounts.none++;
-    else if (avg >= 70) bandCounts.high++;
+    if (avg === null)   bandCounts.none++;
+    else if (avg >= 80) bandCounts.strong++;
+    else if (avg >= 65) bandCounts.good++;
     else if (avg >= 50) bandCounts.mid++;
-    else bandCounts.low++;
+    else if (avg >= 35) bandCounts.low++;
+    else                bandCounts.veryLow++;
   }
 
   // Subject summary

@@ -56,10 +56,12 @@ export default async function InsightsPage() {
     .slice(0, 4);
 
   const bands = [
-    { key: "high", label: "High (≥70)", count: bandCounts.high, bg: "bg-success", text: "text-success-foreground" },
-    { key: "mid",  label: "Mid (50–69)", count: bandCounts.mid,  bg: "bg-warning", text: "text-warning-foreground" },
-    { key: "low",  label: "Low (<50)",  count: bandCounts.low,  bg: "bg-error",   text: "text-error-foreground" },
-    { key: "none", label: "No records", count: bandCounts.none, bg: "bg-muted",   text: "text-muted-foreground" },
+    { key: "strong",  label: "80–100", count: bandCounts.strong,  bg: "bg-success",    text: "text-success-foreground" },
+    { key: "good",    label: "65–79",  count: bandCounts.good,    bg: "bg-success/50", text: "text-foreground" },
+    { key: "mid",     label: "50–64",  count: bandCounts.mid,     bg: "bg-warning",    text: "text-warning-foreground" },
+    { key: "low",     label: "35–49",  count: bandCounts.low,     bg: "bg-error/50",   text: "text-foreground" },
+    { key: "veryLow", label: "0–34",   count: bandCounts.veryLow, bg: "bg-error",      text: "text-error-foreground" },
+    { key: "none",    label: "No records", count: bandCounts.none, bg: "bg-muted",     text: "text-muted-foreground" },
   ] as const;
 
   return (
