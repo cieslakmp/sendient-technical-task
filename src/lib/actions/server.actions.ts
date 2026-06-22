@@ -125,6 +125,49 @@ export async function getAverageForStudent(studentId: number): Promise<number | 
 }
 
 // ---------------------------------------------------------------------------
+// Cohort analytics
+// ---------------------------------------------------------------------------
+
+export type CohortInsightsRow = {
+  studentId: number;
+  studentName: string;
+  studentYearGroup: number;
+  recordId: number | null;
+  score: number | null;
+  recordedAt: Date | null;
+  topicId: number | null;
+  topicName: string | null;
+  topicSubject: string | null;
+};
+
+export async function getCohortInsights(): Promise<CohortInsightsRow[]> {
+  return db
+    .select({
+      studentId:        students.id,
+      studentName:      students.name,
+      studentYearGroup: students.yearGroup,
+      recordId:         progressRecords.id,
+      score:            progressRecords.score,
+      recordedAt:       progressRecords.recordedAt,
+      topicId:          progressRecords.topicId,
+      topicName:        topics.name,
+      topicSubject:     topics.subject,
+    })
+    .from(students)
+    .leftJoin(
+      progressRecords,
+      and(eq(progressRecords.studentId, students.id), isNull(progressRecords.deletedAt))
+    )
+    .leftJoin(
+      topics,
+      and(eq(topics.id, progressRecords.topicId), isNull(topics.deletedAt))
+    )
+    .where(isNull(students.deletedAt))
+    .orderBy(students.name, desc(progressRecords.recordedAt))
+    .all();
+}
+
+// ---------------------------------------------------------------------------
 // Internal admin helpers
 // ---------------------------------------------------------------------------
 
