@@ -116,4 +116,4 @@ Purely cosmetic. Two one-line changes to swap to text-primary. Doesn't affect co
 
 ## What I'd argue is the biggest problem with the codebase
 
-_(One paragraph. Pick the one that matters most.)_
+It still is using unique index on studentId, topicId, recordedAt with no WHERE deleted_at IS NULL clause. Soft deleted rows still hold their slot in the index, re-recording attempt is a constraint violation - I ran out of time to implement it. 
