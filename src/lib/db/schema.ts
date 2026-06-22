@@ -11,9 +11,6 @@ export const students = sqliteTable("students", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   yearGroup: integer("year_group").notNull(),
-  joinedAt: integer("joined_at", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(unixepoch())`),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),

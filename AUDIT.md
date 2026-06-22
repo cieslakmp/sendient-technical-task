@@ -12,6 +12,8 @@ _Fill this in as you go. See the README for what we're looking for._
 
 4. deleteStudent does a hard delete, which is contradictory to soft-delete schema. The deleted students data should be retained and filtered out. 
 
+5. students in the db schema has two identical time stamps on it. Both columns default to unixepoch() and nothing in the codebase sets them to different values. Remove joinedAt from the schema and generated new migration.
+
 ## What I fixed and why
 
 _(For each fix: where it was, what was wrong, and why this one was worth fixing first.)_
