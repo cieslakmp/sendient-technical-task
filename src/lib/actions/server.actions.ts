@@ -5,6 +5,16 @@ import { eq, desc } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { progressRecords, students, topics } from "@/lib/db/schema";
 
+import { z } from "zod";
+
+const RecordProgressInput = z.object({
+  studentId: z.number().int().positive(),
+  topicId: z.number().int().positive(),
+  score: z.number().min(0).max(100),
+  notes: z.string().max(255).optional(),
+});
+
+
 // ---------------------------------------------------------------------------
 // Students
 // ---------------------------------------------------------------------------
@@ -51,10 +61,8 @@ export async function createTopic(input: { name: string; subject: string }) {
 // Progress
 // ---------------------------------------------------------------------------
 
-// FIXME(PROG-42): scores outside 0..100 are accepted by this action.
-// A teacher logged a "120" once and it broke the student detail page badges.
-// We have not yet added validation here or a regression test guarding the range.
-export async function recordProgress(input: any) {
+export async function recordProgress(raw: unknown) {
+  const input = RecordProgressInput.parse(raw);
   const [row] = db
     .insert(progressRecords)
     .values({
