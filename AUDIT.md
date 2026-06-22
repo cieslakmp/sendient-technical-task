@@ -103,7 +103,7 @@ Tests only cover valid boundary values (0, 49, 50, 69, 70, 99). Missing: negativ
 
 ## What I deferred and why
 
-8.
+8. The Zod validation from #2 and the client-side guard from #10 both block invalid scores before they reach the DB. 
 
 9. — ScoreBadge hardcoded Tailwind colors
 Only matters if you plan to ship dark mode. If that's not on the roadmap, this is purely cosmetic and the app works perfectly with hardcoded colours.
