@@ -13,6 +13,7 @@ export default async function InsightsPage() {
     studentsWithRecords,
     cohortAvg,
     bandCounts,
+    studentsByBand,
     subjectStats,
     topicStats,
     attentionStudents,
@@ -112,24 +113,38 @@ export default async function InsightsPage() {
         <CardSubtitle className="mt-1">
           Each student bucketed by their overall average.
         </CardSubtitle>
-        <div className="mt-4 flex h-10 w-full overflow-hidden rounded-md">
-          {bands.map((band) =>
-            band.count === 0 ? null : (
-              <div
-                key={band.key}
-                style={{ width: `${(band.count / totalStudents) * 100}%` }}
-                className={cn(
-                  "flex items-center justify-center overflow-hidden text-xs font-semibold transition-all",
-                  band.bg,
-                  band.text,
-                )}
-                title={`${band.label}: ${band.count} student${band.count !== 1 ? "s" : ""}`}
-              >
-                {band.count}
-              </div>
-            )
-          )}
-        </div>
+        {(() => {
+          const visibleBands = bands.filter((b) => b.count > 0);
+          return (
+            <div className="mt-4 flex h-10 w-full">
+              {visibleBands.map((band, i) => (
+                <div
+                  key={band.key}
+                  style={{ width: `${(band.count / totalStudents) * 100}%` }}
+                  className={cn(
+                    "group relative flex items-center justify-center text-xs font-semibold",
+                    band.bg,
+                    band.text,
+                    i === 0 && "rounded-l-md",
+                    i === visibleBands.length - 1 && "rounded-r-md",
+                  )}
+                >
+                  {band.count}
+                  <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden min-w-[9rem] -translate-x-1/2 rounded-lg border border-border bg-background p-2.5 shadow-md group-hover:block">
+                    <p className="mb-1.5 text-xs font-semibold text-foreground">{band.label}</p>
+                    <ul className="max-h-40 space-y-0.5 overflow-y-auto">
+                      {studentsByBand[band.key].map((s) => (
+                        <li key={s.id} className="whitespace-nowrap text-xs text-muted-foreground">
+                          {s.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        })()}
         <div className="mt-3 flex flex-wrap gap-4 text-xs text-muted-foreground">
           {bands.map((band) =>
             band.count === 0 ? null : (
