@@ -68,7 +68,7 @@ export default async function InsightsPage() {
         <h1 className="text-2xl font-semibold">Insights</h1>
         <p className="mt-1 text-muted-foreground">
           {totalStudents} student{totalStudents !== 1 ? "s" : ""} · {totalRecords} record{totalRecords !== 1 ? "s" : ""}
-          {cohortAvg !== null ? ` · cohort avg ${cohortAvg.toFixed(1)}` : ""}
+          {cohortAvg !== null ? ` · cohort avgerage ${cohortAvg.toFixed(1)}` : ""}
         </p>
       </div>
 
